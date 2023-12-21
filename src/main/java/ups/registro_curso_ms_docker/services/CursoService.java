@@ -5,6 +5,7 @@ import ups.registro_curso_ms_docker.model.Curso;
 import ups.registro_curso_ms_docker.repository.CursoRepository;
 import java.util.List;
 
+@Service
 public class CursoService {
 
     @Autowired
