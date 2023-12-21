@@ -1,0 +1,26 @@
+version: '3'
+services:
+  microservicio:
+    build: ../../..
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: microdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin666
+  angular-app:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./ruta_de_tu_proyecto_angular:/app
+    command: "npm start"  # Ajusta este comando según la configuración de tu proyecto Angular
+    ports:
+      - "4200:4200"  # Ajusta el puerto según la configuración de tu proyecto Angular
+    depends_on:
+      - microservicio
