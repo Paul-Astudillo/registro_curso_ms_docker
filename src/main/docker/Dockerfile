@@ -9,10 +9,9 @@ ENV DEPLOYMENT_DIR $JBOSS_HOME/standalone/deployments/
 RUN echo "Adding WildFly administrator"
 RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
 
-# Copia el archivo WAR construido en el target del proyecto a la carpeta de despliegue de Wildfly
-# Copia el archivo WAR de tu aplicación Spring Boot al directorio de despliegue de Wildfly
-COPY maven/${project.build.finalName}.${project.packaging} ${DEPLOYMENT_DIR}
-#COPY target/registro_curso_ms_docker.war /opt/jboss/wildfly/standalone/deployments/
+# configurar Wildfly server
+COPY maven/${project.build.finalName}.${project.packaging} ${JBOSS_HOME}/standalone/deployments/
+
 
 # Expone el puerto 8090 para la aplicación desplegada en Wildfly
 EXPOSE 8090
