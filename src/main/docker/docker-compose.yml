@@ -5,7 +5,7 @@ services:
     container_name: postgresdocker
     hostname: postgresdocker
     ports:
-      - "5432:5432"
+      - "5434:5432"
     environment:
       POSTGRES_DB: microdb
       POSTGRES_USER: admin
@@ -31,13 +31,21 @@ services:
       - datalogger_net
 
 
-  angular-app:
-    image: node:latest
-    working_dir: /app
-    volumes:
-      - ./ruta_de_tu_proyecto_angular:/app
-    command: "npm start"  # Ajusta este comando según la configuración de tu proyecto Angular
+  angular_frontend:
+    image: juandtap/angular-front
+    container_name: angular_frontend
     ports:
-      - "4200:4200"  # Ajusta el puerto según la configuración de tu proyecto Angular
-    depends_on:
-      - microservicio
+      - 4200:4200
+    networks:
+      - datalogger_net
+
+volumes:
+  pg_data2:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /Users/paul-astudillo/datapg
+
+networks:
+  datalogger_net:
