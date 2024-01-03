@@ -1,22 +1,4 @@
-# Usa una imagen base de Wildfly
-FROM jboss/wildfly:latest
-ENV WILDFLY_USER admin
-ENV WILDFLY_PASS admin666
-
-ENV JBOSS_CLI $JBOSS_HOME/bin/jboss-cli.sh
-ENV DEPLOYMENT_DIR $JBOSS_HOME/standalone/deployments/
-
-RUN echo "Adding WildFly administrator"
-RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
-
-# configurar Wildfly server
-COPY maven/${project.build.finalName}.${project.packaging} ${JBOSS_HOME}/standalone/deployments/
-
-
-# Expone el puerto 8090 para la aplicación desplegada en Wildfly
-EXPOSE 8090
-# puerto administracion
-EXPOSE 9090
-
-# Comando para ejecutar Wildfly al iniciar el contenedor
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+FROM tomcat:10-jre17
+COPY registro_curso_ms_docker-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
